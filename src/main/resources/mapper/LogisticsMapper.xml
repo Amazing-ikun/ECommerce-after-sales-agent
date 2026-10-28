@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pu.ecommerceaftersalesagent.mapper.LogisticsMapper">
+
+    <select id="findShipments" resultType="com.pu.ecommerceaftersalesagent.mapper.row.ShipmentRow">
+        SELECT s.id,
+               o.order_no,
+               c.carrier_name,
+               s.tracking_no,
+               s.status
+        FROM logistics_shipment s
+        JOIN logistics_carrier c ON c.id = s.carrier_id
+        JOIN sales_order o ON o.id = s.order_id
+        JOIN user_account u ON u.id = o.user_id
+        WHERE o.order_no = #{orderNo}
+          AND u.user_no = #{userNo}
+        ORDER BY s.id
+    </select>
+
+    <select id="findRecentEvents" resultType="com.pu.ecommerceaftersalesagent.mapper.row.TrackingEventRow">
+        SELECT event_time,
+               location,
+               description
+        FROM logistics_tracking_event
+        WHERE shipment_id = #{shipmentId}
+        ORDER BY event_time DESC
+        LIMIT 10
+    </select>
+
+</mapper>

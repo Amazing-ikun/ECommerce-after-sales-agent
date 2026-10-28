@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: ECommerce-after-sales-agent
+  profiles:
+    default: local
+  autoconfigure:
+    exclude:
+      # Spring AI Alibaba 2.0.0-M1.1 的自动配置清单引用了打包中不存在的类，排除以免启动失败
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeMultimodalEmbeddingAutoConfiguration
+      # 默认 local profile 不连数据库；mysql profile 会覆盖该排除列表
+      - org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration
+  ai:
+    model:
+      chat: ollama
+      embedding: ollama
+      embedding.text: none
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: qwen3:8b-q4_K_M
+          temperature: 0.3
+      embedding:
+        options:
+          model: qwen3-embedding:0.6b
+    dashscope:
+      enabled: false
+
+server:
+  port: 8081
+
+app:
+  demo-user-id: U1001
+  history-max-turns: 10
+  rag:
+    top-k: 3
+
+logging:
+  level:
+    com.pu.ecommerceaftersalesagent: INFO

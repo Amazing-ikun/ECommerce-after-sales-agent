@@ -1,0 +1,16 @@
+spring:
+  ai:
+    model:
+      chat: dashscope
+      embedding: dashscope
+      embedding.text: dashscope
+    dashscope:
+      enabled: true
+      api-key: ${DASHSCOPE_API_KEY}
+      chat:
+        options:
+          model: qwen-plus
+          temperature: 0.3
+      embedding:
+        options:
+          model: text-embedding-v4
