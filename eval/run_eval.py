@@ -252,7 +252,7 @@ def execute(args, cases):
             ordered[index - 1] = run_case(args, case)
             print("[%d/%d] %s %s" % (
                 index, len(cases), case["id"],
-                "PASS" if ordered[index - 1]["composite_passed"] else "FAIL"))
+                "PASS" if ordered[index - 1]["composite_passed"] else "FAIL"), flush=True)
         return ordered
 
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
@@ -262,7 +262,7 @@ def execute(args, cases):
             ordered[index] = future.result()
             print("[%d/%d] %s %s" % (
                 done, len(cases), cases[index]["id"],
-                "PASS" if ordered[index]["composite_passed"] else "FAIL"))
+                "PASS" if ordered[index]["composite_passed"] else "FAIL"), flush=True)
     return ordered
 
 
@@ -452,7 +452,7 @@ def main(argv=None):
         list_cases(cases)
         return 0
 
-    print("开始评测：%d 条用例，目标 %s" % (len(cases), args.base_url))
+    print("开始评测：%d 条用例，目标 %s" % (len(cases), args.base_url), flush=True)
     started = time.perf_counter()
     results = execute(args, cases)
     elapsed = time.perf_counter() - started
