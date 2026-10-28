@@ -38,4 +38,8 @@ eval/reports/
 ### claude ###
 /.claude
 
+### 本地密钥 ###
+.dashscope-key
+.env
+
 
